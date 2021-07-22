@@ -10,10 +10,7 @@ import {
     StatusBar,
     Image
 } from 'react-native';
-import { registerData } from "../../utils/utils";
-
-const showPassword = require('../../assets/eye.png')
-const hidePassword = require('../../assets/hidden.png')
+import { registerData,showPassword,hidePassword, mobileRegex, emailIDRegex} from "../../utils/utils";
 
 const Registration = (props) => {
 
@@ -23,7 +20,9 @@ const Registration = (props) => {
         check_textInputChange: false,
         secureTextEntry: true,
         confirm_secureTextEntry: true,
-        loader: false
+        loader: false,
+        isValidMobile: true,
+        isValidEmail: true
     });
 
     const textInputChange = (val, id) => {
@@ -40,6 +39,41 @@ const Registration = (props) => {
                 check_textInputChange: false
             });
         }
+
+        if (id === 'email') {
+          const isEmail = emailIDRegex.test(val);
+          if (isEmail) {
+            setData({
+              ...data,
+              isValidEmail: true
+          });
+          } else {
+            {
+              setData({
+                ...data,
+                isValidEmail: false
+            });
+            }
+          }
+        } 
+
+        if (id === 'mobile') {
+          const isMobile = mobileRegex.test(val);
+          if (isMobile) {
+            setData({
+              ...data,
+              isValidMobile: true
+          });
+          } else {
+            {
+              setData({
+                ...data,
+                isValidMobile: false
+            });
+            }
+          }
+        }
+
     }
     
     const togglePassword = () => setData({
@@ -94,7 +128,7 @@ const Registration = (props) => {
                         onChangeText={val => textInputChange(val, item?.id)}
                     />
                     {(item?.id === 'password' || item?.id === 'confirmPassword') &&
-                        <TouchableOpacity onPress={this.togglePassword} style={{position: 'absolute', right: 20}}>
+                        <TouchableOpacity onPress={togglePassword} style={{position: 'absolute', right: 20}}>
                         <Image
                             style={{height: 20, width: 20}}
                             source={data.secureTextEntry ?  hidePassword : showPassword}
@@ -102,6 +136,23 @@ const Registration = (props) => {
                         </TouchableOpacity>
                     }
                     </View>
+                    {item?.id === 'mobile' && !data.isValidMobile ? (
+                      <View>
+                        <Text style={styles.errorMsg}>
+                          Invalid Mobile
+                        </Text>
+                      </View>
+                    ) : null
+                    }
+
+                    {item?.id === 'email' && !data.isValidEmail ? (
+                      <View>
+                        <Text style={styles.errorMsg}>
+                          Invalid Email Address
+                        </Text>
+                      </View>
+                    ) : null
+                    }
                     </>
                 )
             })}
@@ -196,5 +247,9 @@ const styles = StyleSheet.create({
     },
     color_textPrivate: {
         color: 'grey'
-    }
+    },
+    errorMsg: {
+      color: '#FF0000',
+      fontSize: 14,
+    },
   });

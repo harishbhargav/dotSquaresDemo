@@ -169,7 +169,7 @@ const Login = (props) => {
             onChangeText={(val) => handlePasswordChange(val)}
           />
 
-            <TouchableOpacity onPress={this.togglePassword} style={{position: 'absolute', right: 20}}>
+            <TouchableOpacity onPress={togglePassword} style={{position: 'absolute', right: 20}}>
               <Image
                 style={{height: 20, width: 20}}
                 source={data.secureTextEntry ?  hidePassword : showPassword}

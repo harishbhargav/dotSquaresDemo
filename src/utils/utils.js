@@ -4,8 +4,7 @@ export const ASYNC_STORAGE_KEYS = {
 }
 
 export const emailIDRegex = /^[\w-.]+@([\w-]+\.)+[a-zA-z]{2,3}([.]*[a-z]{2})*$/;
-
-
+export const mobileRegex = /^\d{10}$/;
 export const registerData = [
   {
     id: 'firstName',
@@ -35,7 +34,7 @@ export const registerData = [
   },
 ];
 
-const showPassword = require('../assets/eye.png')
-const hidePassword = require('../assets/hidden.png')
+export const showPassword = require('../assets/eye.png')
+export const hidePassword = require('../assets/hidden.png')
 
 
